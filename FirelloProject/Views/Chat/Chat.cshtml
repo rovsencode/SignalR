@@ -34,7 +34,10 @@
             <ul class="list-group">
                 @foreach (AppUser item in ViewBag.Users)
                 {
-                    <li class="list-group-item"> <span id="@item.Id" class="@(item.ConnectionId!=null? "bg-online" : "bg-offline")" style="display:inline-block;width:15px;height:15px;border-radius:50%;  " ></span>   @item.FullName</li>
+                   
+                    <li class="list-group-item">
+                        <a asp-controller="chat" asp-action="ShowAlert" asp-route-userId="@item.Id">Show Alert</a>
+                        <span id="@item.Id" class="@(item.ConnectionId!=null? "bg-online" : "bg-offline")" style="display:inline-block;width:15px;height:15px;border-radius:50%;  " ></span>   @item.FullName</li>
                 }
 
              
@@ -65,6 +68,10 @@
 
             document.getElementById(userId).classList.remove("bg-online");
             document.getElementById(userId).classList.add("bg-offline");
+        })
+        connection.on("ShowAlert", (message) => {
+
+           alert(message);
         })
     </script>
 }
