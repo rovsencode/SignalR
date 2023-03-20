@@ -7,5 +7,6 @@ namespace FirelloProject.Models
         public string FullName { get; set; }
 
         public List<Sales> Sales { get; set; }
+        public string? ConnectionId { get; set; }
     }
 }

@@ -4,29 +4,43 @@
 }
 
 <div class="container">
-    <div class="row p-1">
-        <div class="col-1">User</div>
-        <div class="col-5"><input type="text" id="userInput" /></div>
-    </div>
-    <div class="row p-1">
-        <div class="col-1">Message</div>
-        <div class="col-5"><input type="text" class="w-100" id="messageInput" /></div>
-    </div>
-    <div class="row p-1">
-        <div class="col-6 text-end">
-            <input type="button" id="sendButton" value="Send Message" />
-        </div>
-    </div>
-    <div class="row p-1">
-        <div class="col-6">
-            <hr />
-        </div>
-    </div>
-    <div class="row p-1">
-        <div class="col-6">
-            <ul id="messagesList"></ul>
-        </div>
-    </div>
+    <div class="row">
+<div class="col-6">
+            <div class="row p-1">
+                <div class="col-1">User</div>
+                <div class="col-5"><input type="text" id="userInput" /></div>
+            </div>
+            <div class="row p-1">
+                <div class="col-1">Message</div>
+                <div class="col-5"><input type="text" class="w-100" id="messageInput" /></div>
+            </div>
+            <div class="row p-1">
+                <div class="col-6 text-end">
+                    <input type="button" id="sendButton" value="Send Message" />
+                </div>
+            </div>
+            <div class="row p-1">
+                <div class="col-6">
+                    <hr />
+                </div>
+            </div>
+            <div class="row p-1">
+                <div class="col-6">
+                    <ul id="messagesList"></ul>
+                </div>
+            </div>
+</div>
+<div class="col-6">
+            <ul class="list-group">
+                @foreach (AppUser item in ViewBag.Users)
+                {
+                    <li class="list-group-item"> <span id="@item.Id" class="@(item.ConnectionId!=null? "bg-online" : "bg-offline")" style="display:inline-block;width:15px;height:15px;border-radius:50%;  " ></span>   @item.FullName</li>
+                }
+
+             
+            </ul>
+</div>
+</div>
 </div>
 @section Scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.4/signalr.min.js" integrity="sha512-ulHhwQdGlX96gNSRsakG06STFdaQBUTbCX4KqLcYI428blEsttMkg2C3n2KtiYNDwnETBHXDg9ZAtvkfMHTYOQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -42,5 +56,15 @@
          console.log(`${user} ${message}`);
 
      })
+        connection.on("UserOnline", (userId)=> {
+
+            document.getElementById(userId).classList.remove("bg-offline");
+            document.getElementById(userId).classList.add("bg-online");
+        })
+           connection.on("UserOffline", (userId)=> {
+
+            document.getElementById(userId).classList.remove("bg-online");
+            document.getElementById(userId).classList.add("bg-offline");
+        })
     </script>
 }
